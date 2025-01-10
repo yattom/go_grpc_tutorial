@@ -1,4 +1,34 @@
+// .devcontainer/devcontainer.json
 {
-    "name": "go_grpc_tutorial",
-    "image": "golang:latest"
+  "name": "Go gRPC Dev Container",
+  
+  // Dockerfile およびコンテキスト指定
+  "build": {
+    "dockerfile": "../Dockerfile",    // Dockerfileのパス (ルートにある想定)
+    "context": ".."                // 例: .devcontainer/ の一つ上をビルドコンテキストに
+  },
+
+  // コンテナ起動時の追加オプション
+  "runArgs": [
+    // ポートフォワードを明示する場合
+    "-p", "50051:50051"
+    // 必要であれば他のオプションも追加
+  ],
+
+  // VS Code からコンテナ内へフォワードするポートを定義
+  "forwardPorts": [50051],
+
+  // VS Code 拡張機能
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "golang.go",                   // Go言語サポート
+        "ms-azuretools.vscode-docker"  // Docker拡張 (任意)
+      ]
+    }
+  },
+
+  // コンテナ内で利用するユーザー
+  // デフォルトはrootでないことが多いですが、簡易的にrootを使う場合
+  "remoteUser": "root"
 }

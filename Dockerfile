@@ -27,7 +27,8 @@ RUN protoc \
 RUN go build -o server ./server
 
 # 2. 実行用ステージ
-FROM gcr.io/distroless/base-debian11
+FROM golang:latest
+WORKDIR /app
 
 # ポートを開ける（gRPCで利用予定のポート）
 EXPOSE 50051
