@@ -1,0 +1,4 @@
+{
+    "name": "go_grpc_tutorial",
+    "image": "golang:latest"
+}
