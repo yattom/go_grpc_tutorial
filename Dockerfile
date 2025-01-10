@@ -9,32 +9,32 @@ RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@latest \
 # アプリ用ディレクトリを作成し移動
 WORKDIR /app
 
-# 依存パッケージだけ先にコピーしてgo.modの内容に従いダウンロード
-COPY go.mod go.sum ./
-RUN go mod download
+# # 依存パッケージだけ先にコピーしてgo.modの内容に従いダウンロード
+# COPY go.mod go.sum ./
+# RUN go mod download
 
-# 残りのソースコードをコピー
-COPY . .
+# # 残りのソースコードをコピー
+# COPY . .
 
-# .protoファイルからGoコードを生成
-# （protoディレクトリにある helloworld.proto を例に）
-RUN protoc \
-    --go_out=. \
-    --go-grpc_out=. \
-    proto/helloworld.proto
+# # .protoファイルからGoコードを生成
+# # （protoディレクトリにある helloworld.proto を例に）
+# RUN protoc \
+#     --go_out=. \
+#     --go-grpc_out=. \
+#     proto/helloworld.proto
 
-# gRPCサーバーをビルド
-RUN go build -o server ./server
+# # gRPCサーバーをビルド
+# RUN go build -o server ./server
 
-# 2. 実行用ステージ
-FROM golang:latest
-WORKDIR /app
+# # 2. 実行用ステージ
+# FROM golang:latest
+# WORKDIR /app
 
-# ポートを開ける（gRPCで利用予定のポート）
-EXPOSE 50051
+# # ポートを開ける（gRPCで利用予定のポート）
+# EXPOSE 50051
 
-# ビルドしたバイナリをコピー
-COPY --from=build /app/server /app/server
+# # ビルドしたバイナリをコピー
+# COPY --from=build /app/server /app/server
 
 # コンテナ起動時に実行されるコマンド
 ENTRYPOINT ["/bin/bash"]
